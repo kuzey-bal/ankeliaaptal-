@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ankelia aptal mı?</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f7f3e8; /* Hafif Krem Arka Plan */
+            color: #3e2723; /* Koyu Kahverengi */
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 40px;
+            color: #ff9800; /* Turuncu (Altın Rengi) */
+            font-size: 3em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .button-container {
+            display: flex;
+            gap: 50px;
+            align-items: flex-end; 
+        }
+
+        .vote-button {
+            padding: 15px 35px;
+            font-size: 1.5em;
+            cursor: pointer;
+            border: 3px solid #ff9800;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: all 0.3s ease-out; 
+            min-width: 180px; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* EVET BUTONU (Büyüyecek olan) */
+        #yesButton {
+            background-color: #4CAF50; /* Yeşil */
+            color: white;
+            transform: scale(1); 
+        }
+
+        /* HAYIR BUTONU */
+        #noButton {
+            background-color: #d32f2f; /* Kırmızı */
+            color: white; 
+        }
+
+        /* SONUÇ MESAJI STİLİ */
+        #resultMessage {
+            margin-top: 50px;
+            font-size: 2em;
+            color: #3e2723; 
+            font-weight: 700;
+            opacity: 0; /* Başlangıçta görünmez */
+            transition: opacity 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>KRAL?</h1>
+
+    <div class="button-container">
+        <button id="yesButton" class="vote-button">EVET</button>
+        <button id="noButton" class="vote-button">HAYIR</button>
+    </div>
+
+    <div id="resultMessage"></div>
+
+    <script>
+        const yesButton = document.getElementById('yesButton');
+        const noButton = document.getElementById('noButton');
+        const resultMessage = document.getElementById('resultMessage');
+
+        let yesScale = 1.0; // EVET butonu başlangıç büyüklüğü
+        const scaleStep = 0.2; // Her HAYIR tıklamasında ne kadar büyüyeceği
+
+        // HAYIR Butonu Tıklama İşlevi (EVET Butonunu Büyütür)
+        noButton.addEventListener('click', () => {
+            // EVET Butonunun büyüklüğünü artır, maksimum 3.0 katına kadar
+            if (yesScale < 3.0) {
+                yesScale += scaleStep;
+                yesButton.style.transform = `scale(${yesScale})`;
+                // HAYIR butonunun da biraz küçülmesini sağlayabiliriz
+                noButton.style.transform = `scale(${1 - (yesScale - 1) * 0.2})`;
+            }
+            // Sonuç mesajını gizle
+            resultMessage.style.opacity = 0;
+        });
+
+        // EVET Butonu Tıklama İşlevi (Sonuç Durumu)
+        yesButton.addEventListener('click', () => {
+            // Mesajı ayarla
+            resultMessage.innerHTML = "Bende öyle düşündüm.";
+            
+            // Mesajı görünür yap
+            resultMessage.style.opacity = 1;
+            
+            // Butonları devre dışı bırak, sadece mesajı görsünler
+            yesButton.disabled = true;
+            noButton.disabled = true;
+        });
+    </script>
+
+</body>
+</html>
